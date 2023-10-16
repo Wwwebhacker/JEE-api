@@ -1,0 +1,28 @@
+GET http://localhost:9080/demo-1.0-SNAPSHOT/api/users
+
+###
+
+GET http://localhost:9080/demo-1.0-SNAPSHOT/api/users/c4804e0f-769e-4ab9-9ebe-0578fb4f00a6
+
+###
+
+GET http://localhost:9080/demo-1.0-SNAPSHOT/api/users/c4804e0f-769e-4ab9-9ebe-0578fb4f00a6/avatar
+
+###
+
+DELETE http://localhost:9080/demo-1.0-SNAPSHOT/api/users/c4804e0f-769e-4ab9-9ebe-0578fb4f00a6/avatar
+
+###
+
+PUT http://localhost:9080/demo-1.0-SNAPSHOT/api/users/c4804e0f-769e-4ab9-9ebe-0578fb4f00a6/avatar
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="avatar"; filename="avatar.png'
+
+< C:\projects\NIA_JEE_2023\example\demo\src\main\resources\avatar\eloise.png
+
+--boundary--
+
+###
+
