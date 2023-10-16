@@ -2,18 +2,24 @@ package com.example.datastore.component;
 
 import com.example.serialization.component.CloningUtility;
 import com.example.user.entity.User;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@ApplicationScoped
+@NoArgsConstructor(force = true)
 public class DataStore {
     private final Set<User> users = new HashSet<>();
 
     private final CloningUtility cloningUtility;
 
 
+    @Inject
     public DataStore(CloningUtility cloningUtility) {
         this.cloningUtility = cloningUtility;
     }

@@ -8,6 +8,9 @@ import com.example.controller.servlet.exception.NotFoundException;
 import com.example.user.dto.GetUserResponse;
 import com.example.user.dto.GetUsersResponse;
 import com.example.user.service.UserService;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import lombok.NoArgsConstructor;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,11 +21,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+@RequestScoped
+@NoArgsConstructor(force = true)
 public class UserController {
     private final UserService service;
     private final DtoFunctionFactory factory;
 
 
+    @Inject
     public UserController(UserService userService, DtoFunctionFactory factory){
         this.service = userService;
         this.factory = factory;

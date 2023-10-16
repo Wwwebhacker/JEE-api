@@ -3,28 +3,35 @@ package com.example.configuration.listener;
 import com.example.user.entity.User;
 import com.example.user.entity.UserRoles;
 import com.example.user.service.UserService;
-import jakarta.servlet.ServletContextEvent;
-import jakarta.servlet.ServletContextListener;
-import jakarta.servlet.annotation.WebListener;
-import lombok.SneakyThrows;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Initialized;
+import jakarta.enterprise.context.control.RequestContextController;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
-@WebListener
-public class InitializeData implements ServletContextListener {
+@ApplicationScoped
+public class InitializeData {
 
-    private UserService userService;
+    private final UserService userService;
+    private final RequestContextController requestContextController;
 
-    @Override
-    public void contextInitialized(ServletContextEvent event) {
-        userService = (UserService) event.getServletContext().getAttribute("userService");
 
+    @Inject
+    public InitializeData(UserService userService, RequestContextController requestContextController){
+        this.userService = userService;
+        this.requestContextController = requestContextController;
+    }
+
+    public void contextInitialized(@Observes @Initialized(ApplicationScoped.class) Object init) {
         init();
     }
 
-    @SneakyThrows
+
     private void init() {
+        requestContextController.activate();
         User user = User.builder()
                 .id(UUID.fromString("c4804e0f-769e-4ab9-9ebe-0578fb4f00a6"))
                 .name("testUser")
@@ -45,9 +52,6 @@ public class InitializeData implements ServletContextListener {
                     .build();
             userService.create(user);
         }
-
-
-
-
+        requestContextController.deactivate();
     }
 }
