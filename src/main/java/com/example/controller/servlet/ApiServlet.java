@@ -97,7 +97,7 @@ public class ApiServlet extends HttpServlet {
         if (Paths.API.equals(servletPath)) {
             if (path.matches(Patterns.USER_AVATAR.pattern())){
                 UUID uuid = extractUuid(Patterns.USER_AVATAR, path);
-                userController.deleteFile(uuid);
+                userController.deleteUserAvatar(uuid);
                 return;
             }
         }

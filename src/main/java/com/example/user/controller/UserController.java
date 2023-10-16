@@ -56,7 +56,7 @@ public class UserController {
     }
 
     public void deleteFile(UUID id) throws IOException {
-        Path path = Paths.get("avatars", id.toString());
+        Path path = Paths.get("avatars", id.toString()+ ".png");
         Files.delete(path);
     }
 
