@@ -18,11 +18,11 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository repository;
-    private String filePath = "";
+    private final FileService fileService;
 
-    public UserService(UserRepository repository, String filePath) {
+    public UserService(UserRepository repository, FileService fileService) {
         this.repository = repository;
-        this.filePath = filePath;
+        this.fileService = fileService;
     }
     public Optional<User> find(UUID id) {
         return repository.find(id);
@@ -38,34 +38,15 @@ public class UserService {
     }
 
     public void deleteFile(UUID id) throws IOException {
-
-        Path path = Paths.get(filePath, id.toString()+ ".png");
-
-        Files.delete(path);
+        this.fileService.deleteFile(id);
     }
 
     public byte[] getFile(UUID id) throws IOException {
-        Path dirPath = Paths.get(filePath, id.toString()+ ".png");
-        return Files.readAllBytes(dirPath);
+        return this.fileService.getFile(id);
     }
 
     public void saveToFile(UUID id, InputStream is) throws IOException {
-
-        Path dirPath = Paths.get(filePath);
-
-        if (!Files.exists(dirPath)) {
-            Files.createDirectories(dirPath);
-        }
-
-
-        byte[] buffer = new byte[4096];
-        int bytesRead;
-
-        try (FileOutputStream fos = new FileOutputStream(dirPath + File.separator + id.toString() + ".png")) {
-            while ((bytesRead = is.read(buffer)) != -1) {
-                fos.write(buffer, 0, bytesRead);
-            }
-        }
+        this.fileService.saveToFile(id, is);
     }
 
 

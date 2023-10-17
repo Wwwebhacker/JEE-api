@@ -41,7 +41,11 @@ public class UserController {
 
     public byte[] getUserAvatar(UUID id) throws IOException {
         this.service.find(id).orElseThrow(NotFoundException::new);
-        return this.service.getFile(id);
+        try {
+            return this.service.getFile(id);
+        } catch (Exception t){
+            throw new NotFoundException();
+        }
     }
 
     public void putUserAvatar(UUID id, InputStream avatar) throws IOException {

@@ -3,6 +3,7 @@ package com.example.configuration.listener;
 import com.example.datastore.component.DataStore;
 import com.example.user.repository.api.UserRepository;
 import com.example.user.repository.memory.UserInMemoryRepository;
+import com.example.user.service.FileService;
 import com.example.user.service.UserService;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
@@ -18,6 +19,6 @@ public class CreateServices implements ServletContextListener {
         UserRepository userRepository = new UserInMemoryRepository(dataStore);
         String filePath = event.getServletContext().getInitParameter("filePath");
 
-        event.getServletContext().setAttribute("userService", new UserService(userRepository, filePath));
+        event.getServletContext().setAttribute("userService", new UserService(userRepository,new FileService(filePath)));
     }
 }
