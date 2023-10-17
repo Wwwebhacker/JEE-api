@@ -1,13 +1,9 @@
-package com.example.user.entity;
-
+package com.example.product.entity;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -17,13 +13,8 @@ import java.util.UUID;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 @EqualsAndHashCode
-public class User implements Serializable {
+public class Product implements Serializable {
     private UUID id;
 
     private String name;
-    private String login;
-    private LocalDate registrationDate;
-    private List<String> roles;
-
-
 }

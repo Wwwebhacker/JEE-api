@@ -1,5 +1,9 @@
 package com.example.configuration.listener;
 
+import com.example.borrowedItem.entity.BorrowedItem;
+import com.example.borrowedItem.service.BorrowedItemService;
+import com.example.product.entity.Product;
+import com.example.product.service.ProductService;
 import com.example.user.entity.User;
 import com.example.user.entity.UserRoles;
 import com.example.user.service.UserService;
@@ -16,12 +20,16 @@ import java.util.UUID;
 public class InitializeData {
 
     private final UserService userService;
+    private final ProductService productService;
+    private final BorrowedItemService borrowedItemService;
     private final RequestContextController requestContextController;
 
 
     @Inject
-    public InitializeData(UserService userService, RequestContextController requestContextController){
+    public InitializeData(BorrowedItemService borrowedItemService, ProductService productService, UserService userService, RequestContextController requestContextController){
+        this.productService = productService;
         this.userService = userService;
+        this.borrowedItemService = borrowedItemService;
         this.requestContextController = requestContextController;
     }
 
@@ -42,6 +50,8 @@ public class InitializeData {
 
         userService.create(user);
 
+
+
         for (int i = 0; i < 3; i++) {
             user = User.builder()
                     .id(UUID.randomUUID())
@@ -52,6 +62,28 @@ public class InitializeData {
                     .build();
             userService.create(user);
         }
+
+        for (int i = 0; i < 4; i++) {
+            Product product = Product.builder()
+                    .id(UUID.randomUUID())
+                    .name("product" + i)
+                    .build();
+            productService.create(product);
+        }
+        System.out.println(productService.findAll());
+
+
+        for (int i = 0; i < 4; i++) {
+            BorrowedItem borrowedItem = BorrowedItem.builder()
+                    .id(UUID.randomUUID())
+                    .user(userService.findAll().get(i))
+                    .product(productService.findAll().get(i))
+                    .build();
+            borrowedItemService.create(borrowedItem);
+        }
+        System.out.println(borrowedItemService.findAll());
+
+
         requestContextController.deactivate();
     }
 }
