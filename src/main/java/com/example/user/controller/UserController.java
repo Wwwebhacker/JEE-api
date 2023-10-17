@@ -11,6 +11,7 @@ import com.example.user.service.UserService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import lombok.NoArgsConstructor;
+import jakarta.servlet.ServletContext;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -46,47 +47,27 @@ public class UserController {
 
     public byte[] getUserAvatar(UUID id) throws IOException {
         this.service.find(id).orElseThrow(NotFoundException::new);
-        return getFile(id);
+        try {
+            return this.service.getFile(id);
+        } catch (Exception t){
+            throw new NotFoundException();
+        }
     }
 
     public void putUserAvatar(UUID id, InputStream avatar) throws IOException {
         this.service.find(id).orElseThrow(NotFoundException::new);
 
-        saveToFile(id, avatar);
+        this.service.saveToFile(id, avatar);
     }
 
     public void deleteUserAvatar(UUID id) throws IOException {
         this.service.find(id).orElseThrow(NotFoundException::new);
-
-        deleteFile(id);
-    }
-
-    public void deleteFile(UUID id) throws IOException {
-        Path path = Paths.get("avatars", id.toString()+ ".png");
-        Files.delete(path);
-    }
-
-    public byte[] getFile(UUID id) throws IOException {
-        Path dirPath = Paths.get("avatars", id.toString()+ ".png");
-        return Files.readAllBytes(dirPath);
-    }
-
-    public void saveToFile(UUID id, InputStream is) throws IOException {
-
-        Path dirPath = Paths.get("avatars");
-
-        if (!Files.exists(dirPath)) {
-            Files.createDirectories(dirPath);
-        }
-
-
-        byte[] buffer = new byte[4096];
-        int bytesRead;
-
-        try (FileOutputStream fos = new FileOutputStream(dirPath + File.separator + id.toString() + ".png")) {
-            while ((bytesRead = is.read(buffer)) != -1) {
-                fos.write(buffer, 0, bytesRead);
-            }
+        try {
+            this.service.deleteFile(id);
+        } catch (Exception t){
+            throw new NotFoundException();
         }
     }
+
+
 }
