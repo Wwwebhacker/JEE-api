@@ -1,5 +1,10 @@
 package com.example.user.service;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.servlet.ServletContext;
+import lombok.NoArgsConstructor;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,11 +14,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+@ApplicationScoped
+@NoArgsConstructor(force = true)
 public class FileService {
     private String filePath = "";
 
-    public FileService(String filePath){
-        this.filePath = filePath;
+    @Inject
+    public FileService(ServletContext context){
+        this.filePath = context.getInitParameter("filePath");
     }
 
     public void deleteFile(UUID id) throws IOException {
