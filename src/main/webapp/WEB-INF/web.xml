@@ -15,4 +15,8 @@
     <listener>
         <listener-class>com.example.configuration.listener.InitializeData</listener-class>
     </listener>
+    <context-param>
+        <param-name>filePath</param-name>
+        <param-value>C:\projects\NIA_JEE_2023\example\demo\src\main\resources\files</param-value>
+    </context-param>
 </web-app>

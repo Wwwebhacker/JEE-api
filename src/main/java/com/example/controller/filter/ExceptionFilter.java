@@ -21,7 +21,7 @@ public class ExceptionFilter extends HttpFilter {
         try {
             super.doFilter(request, response, chain);
         } catch (HttpRequestException ex) {
-            response.sendError(501);
+            response.sendError(ex.getResponseCode());
         }
     }
 

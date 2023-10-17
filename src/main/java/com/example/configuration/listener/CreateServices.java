@@ -15,9 +15,9 @@ public class CreateServices implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         DataStore dataStore = (DataStore)event.getServletContext().getAttribute("datastore");
-
         UserRepository userRepository = new UserInMemoryRepository(dataStore);
+        String filePath = event.getServletContext().getInitParameter("filePath");
 
-        event.getServletContext().setAttribute("userService", new UserService(userRepository));
+        event.getServletContext().setAttribute("userService", new UserService(userRepository, filePath));
     }
 }
