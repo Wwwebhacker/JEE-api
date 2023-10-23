@@ -38,6 +38,11 @@ public class BorrowedItemService {
 
     public void create(BorrowedItem borrowedItem) { borrowedItemRepository.create(borrowedItem); }
 
+    public void delete(UUID id) {
+        borrowedItemRepository.delete(borrowedItemRepository.find(id).orElseThrow());
+    }
+
+
     public Optional<List<BorrowedItem>> findAllByUser(UUID id){
         return userRepository.find(id)
                 .map(borrowedItemRepository::findAllByUser);

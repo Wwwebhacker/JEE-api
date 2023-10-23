@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -88,6 +89,22 @@ public class DataStore {
         }
 
         return entity;
+    }
+
+    public synchronized void deleteBorrowedItem(UUID id) throws IllegalArgumentException {
+        if (!borrowedItems.removeIf(borrowedItem -> borrowedItem.getId().equals(id))) {
+            throw new IllegalArgumentException("The borrowedItem with id \"%s\" does not exist".formatted(id));
+        }
+    }
+
+    public synchronized void deleteProduct(UUID id) throws IllegalArgumentException {
+        Product product = findAllProducts().stream().filter(p -> p.getId().equals(id)).findFirst().orElseThrow(() -> new IllegalArgumentException("The product with id \"%s\" does not exist".formatted(id)));
+
+        List<BorrowedItem> borrowedItemsToDelete = findAllBorrowedItems().stream().filter(borrowedItem -> borrowedItem.getProduct().equals(product)).toList();
+
+        borrowedItemsToDelete.forEach(borrowedItem -> deleteBorrowedItem(borrowedItem.getId()));
+
+        products.remove(product);
     }
 
 }

@@ -25,4 +25,9 @@ public class ProductService {
     public List<Product> findAll() { return repository.findAll(); }
 
     public void create(Product product) { repository.create(product); }
+
+    public void delete(UUID id) {
+        repository.delete(repository.find(id).orElseThrow());
+    }
+
 }

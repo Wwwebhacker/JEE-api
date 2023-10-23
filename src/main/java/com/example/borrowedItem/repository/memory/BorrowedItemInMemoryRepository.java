@@ -62,8 +62,7 @@ public class BorrowedItemInMemoryRepository implements BorrowedItemRepository {
 
     @Override
     public void delete(BorrowedItem entity) {
-        throw new UnsupportedOperationException("Not implemented.");
-
+        store.deleteBorrowedItem(entity.getId());
     }
 
     @Override

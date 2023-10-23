@@ -37,7 +37,7 @@ public class ProductInMemoryRepository implements ProductRepository {
 
     @Override
     public void delete(Product entity) {
-        throw new UnsupportedOperationException("Not implemented.");
+        store.deleteProduct(entity.getId());
     }
 
     @Override

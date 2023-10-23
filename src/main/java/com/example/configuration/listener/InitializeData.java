@@ -67,6 +67,7 @@ public class InitializeData {
             Product product = Product.builder()
                     .id(UUID.randomUUID())
                     .name("product" + i)
+                    .brand("brand" + i)
                     .build();
             productService.create(product);
         }
@@ -76,6 +77,7 @@ public class InitializeData {
         for (int i = 0; i < 4; i++) {
             BorrowedItem borrowedItem = BorrowedItem.builder()
                     .id(UUID.randomUUID())
+                    .date(LocalDate.now())
                     .user(userService.findAll().get(i))
                     .product(productService.findAll().get(i))
                     .build();

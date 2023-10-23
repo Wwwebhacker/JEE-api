@@ -1,22 +1,18 @@
-package com.example.product.entity;
+package com.example.product.model;
+
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 @Getter
 @Setter
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 @EqualsAndHashCode
-public class Product implements Serializable {
-    private UUID id;
-
+public class ProductModel {
     private String name;
-
     private String brand;
 }
