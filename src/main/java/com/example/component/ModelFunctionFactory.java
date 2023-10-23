@@ -1,5 +1,6 @@
 package com.example.component;
 
+import com.example.borrowedItem.model.function.ItemToModelFunction;
 import com.example.borrowedItem.model.function.ItemsToModelFunction;
 import com.example.product.model.function.ProductToModelFunction;
 import com.example.product.model.function.ProductsToModelFunction;
@@ -16,5 +17,9 @@ public class ModelFunctionFactory {
 
     public ItemsToModelFunction itemsToModel(){
         return new ItemsToModelFunction();
+    }
+
+    public ItemToModelFunction itemToModel(){
+        return new ItemToModelFunction();
     }
 }
