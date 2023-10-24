@@ -74,12 +74,12 @@ public class InitializeData {
         System.out.println(productService.findAll());
 
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 8; i++) {
             BorrowedItem borrowedItem = BorrowedItem.builder()
                     .id(UUID.randomUUID())
                     .date(LocalDate.now())
-                    .user(userService.findAll().get(i))
-                    .product(productService.findAll().get(i))
+                    .user(userService.findAll().get(i%4))
+                    .product(productService.findAll().get(i%4))
                     .build();
             borrowedItemService.create(borrowedItem);
         }
