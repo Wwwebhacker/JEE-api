@@ -42,6 +42,6 @@ public class ProductInMemoryRepository implements ProductRepository {
 
     @Override
     public void update(Product entity) {
-        throw new UnsupportedOperationException("Not implemented.");
+        store.updateProduct(entity);
     }
 }

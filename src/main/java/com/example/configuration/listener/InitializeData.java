@@ -63,8 +63,15 @@ public class InitializeData {
             userService.create(user);
         }
 
+        Product product = Product.builder()
+                .id(UUID.fromString("ff327e8a-77c0-4f9b-90a2-89e16895d1e1"))
+                .name("product--")
+                .brand("brand--")
+                .build();
+        productService.create(product);
+
         for (int i = 0; i < 4; i++) {
-            Product product = Product.builder()
+            product = Product.builder()
                     .id(UUID.randomUUID())
                     .name("product" + i)
                     .brand("brand" + i)
@@ -83,7 +90,7 @@ public class InitializeData {
                     .build();
             borrowedItemService.create(borrowedItem);
         }
-        System.out.println(borrowedItemService.findAll());
+
 
 
         requestContextController.deactivate();

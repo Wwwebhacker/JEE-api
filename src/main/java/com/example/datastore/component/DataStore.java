@@ -56,6 +56,15 @@ public class DataStore {
         products.add(cloningUtility.clone(value));
     }
 
+    public synchronized void updateProduct(Product value) throws IllegalArgumentException {
+        Product entity = cloningUtility.clone(value);
+        if (products.removeIf(product -> product.getId().equals(value.getId()))) {
+            products.add(entity);
+        }else {
+            throw new IllegalArgumentException("The product with id \"%s\" does not exist".formatted(value.getId()));
+        }
+    }
+
     public synchronized List<BorrowedItem> findAllBorrowedItems(){
         return borrowedItems.stream()
                 .map(cloningUtility::clone)
@@ -90,6 +99,8 @@ public class DataStore {
 
         return entity;
     }
+
+
 
     public synchronized void deleteBorrowedItem(UUID id) throws IllegalArgumentException {
         if (!borrowedItems.removeIf(borrowedItem -> borrowedItem.getId().equals(id))) {

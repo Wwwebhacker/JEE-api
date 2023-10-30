@@ -1,3 +1,5 @@
+###
+
 GET http://localhost:9080/demo-1.0-SNAPSHOT/api/users
 
 ###
@@ -26,3 +28,34 @@ Content-Disposition: form-data; name="avatar"; filename="avatar.png'
 
 ###
 
+GET http://localhost:9080/demo-1.0-SNAPSHOT/api/products
+
+###
+
+GET http://localhost:9080/demo-1.0-SNAPSHOT/api/products/ff327e8a-77c0-4f9b-90a2-89e16895d1e1
+
+###
+
+PUT http://localhost:9080/demo-1.0-SNAPSHOT/api/products/ff327e8a-77c0-4f9b-90a2-89e16895d1e1
+Content-Type: application/json
+
+{
+  "name": "NewCreated",
+  "brand": "NewBrand"
+}
+
+###
+
+DELETE http://localhost:9080/demo-1.0-SNAPSHOT/api/products/ff327e8a-77c0-4f9b-90a2-89e16895d1e1
+
+###
+
+PATCH http://localhost:9080/demo-1.0-SNAPSHOT/api/products/ff327e8a-77c0-4f9b-90a2-89e16895d1e1
+Content-Type: application/json
+
+{
+  "name": "UPDATED name",
+  "brand": "UPDATED brand"
+}
+
+###
