@@ -1,5 +1,9 @@
 package com.example.component;
 
+import com.example.borrowedItem.dto.function.ItemToResponseFunction;
+import com.example.borrowedItem.dto.function.ItemsToResponseFunction;
+import com.example.borrowedItem.dto.function.RequestToItemFunction;
+import com.example.borrowedItem.dto.function.UpdateItemWithRequestFunction;
 import com.example.product.dto.function.ProductToResponseFunction;
 import com.example.product.dto.function.ProductsToResponseFunction;
 import com.example.product.dto.function.RequestToProductFunction;
@@ -31,7 +35,22 @@ public class DtoFunctionFactory {
         return new RequestToProductFunction();
     }
 
-    public UpdateProductWithRequestFunction updateProduct(){
+    public UpdateProductWithRequestFunction updateProduct() {
         return new UpdateProductWithRequestFunction();
+    }
+
+    public ItemsToResponseFunction itemsToResponse() {
+        return new ItemsToResponseFunction();
+    }
+    public ItemToResponseFunction itemToResponse() {
+        return new ItemToResponseFunction();
+    }
+
+    public RequestToItemFunction requestToItem() {
+        return new RequestToItemFunction();
+    }
+
+    public UpdateItemWithRequestFunction updateItem() {
+        return new UpdateItemWithRequestFunction();
     }
 }

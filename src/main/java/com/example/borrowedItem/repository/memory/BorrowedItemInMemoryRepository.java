@@ -67,6 +67,6 @@ public class BorrowedItemInMemoryRepository implements BorrowedItemRepository {
 
     @Override
     public void update(BorrowedItem entity) {
-        throw new UnsupportedOperationException("Not implemented.");
+        store.updateItem(entity);
     }
 }

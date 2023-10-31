@@ -65,6 +65,15 @@ public class DataStore {
         }
     }
 
+    public synchronized void updateItem(BorrowedItem value) throws IllegalArgumentException {
+        BorrowedItem entity = cloneWithRelations(value);
+        if (borrowedItems.removeIf(borrowedItem -> borrowedItem.getId().equals(value.getId()))) {
+            borrowedItems.add(entity);
+        }else {
+            throw new IllegalArgumentException("The borrowedItem with id \"%s\" does not exist".formatted(value.getId()));
+        }
+    }
+
     public synchronized List<BorrowedItem> findAllBorrowedItems(){
         return borrowedItems.stream()
                 .map(cloningUtility::clone)

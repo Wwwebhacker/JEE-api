@@ -3,6 +3,7 @@ package com.example.borrowedItem.service;
 
 import com.example.borrowedItem.entity.BorrowedItem;
 import com.example.borrowedItem.repository.api.BorrowedItemRepository;
+import com.example.product.entity.Product;
 import com.example.product.repository.api.ProductRepository;
 import com.example.user.entity.User;
 import com.example.user.repository.api.UserRepository;
@@ -53,6 +54,8 @@ public class BorrowedItemService {
                 .map(borrowedItemRepository::findAllByProduct);
     }
 
-
+    public void update(BorrowedItem borrowedItem) {
+        borrowedItemRepository.update(borrowedItem);
+    }
 
 }
