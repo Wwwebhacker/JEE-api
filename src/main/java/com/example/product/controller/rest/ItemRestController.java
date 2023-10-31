@@ -79,10 +79,10 @@ public class ItemRestController implements ItemController {
                     throw new NotFoundException();
                 }
         );
-//            response.setHeader("Location", uriInfo.getBaseUriBuilder()
-//                    .path(ItemController.class, "getProductItem")
-//                    .build(id)
-//                    .toString());
+            response.setHeader("Location", uriInfo.getBaseUriBuilder()
+                    .path(ItemController.class, "getProductItem")
+                    .build(productId, itemId)
+                    .toString());
             throw new WebApplicationException(Response.Status.CREATED);
         } catch (IllegalArgumentException ex) {
             throw new BadRequestException(ex);
@@ -102,10 +102,10 @@ public class ItemRestController implements ItemController {
                         throw new NotFoundException();
                     }
             );
-//            response.setHeader("Location", uriInfo.getBaseUriBuilder()
-//                    .path(ItemController.class, "getProductItem")
-//                    .build(id)
-//                    .toString());
+            response.setHeader("Location", uriInfo.getBaseUriBuilder()
+                    .path(ItemController.class, "getProductItem")
+                            .build(productId, itemId)
+                    .toString());
             throw new WebApplicationException(Response.Status.CREATED);
         } catch (IllegalArgumentException ex) {
             throw new BadRequestException(ex);
