@@ -60,30 +60,30 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:9080/demo-1.0-SNAPSHOT/api/products/ff327e8a-77c0-4f9b-90a2-89e16895d1e1/items
+GET http://localhost:9080/demo-1.0-SNAPSHOT/api/products/837a3e70-f64b-4088-b834-4658a08253a2/items
 
 ###
 
-PUT http://localhost:9080/demo-1.0-SNAPSHOT/api/products/ff327e8a-77c0-4f9b-90a2-89e16895d1e1/items/ff327e8a-77c0-4f9b-90a2-89e16895d1e1
+PUT http://localhost:9080/demo-1.0-SNAPSHOT/api/products/ff327e8a-77c0-4f9b-90a2-89e16895d1e1/items/ff327e8a-77c0-4f9b-90a2-89e16895d1e2
 Content-Type: application/json
 
 {
-  "date": "2023-10-31"
+  "date": "2023-10-10"
 }
 
 ###
 
-GET http://localhost:9080/demo-1.0-SNAPSHOT/api/products/ff327e8a-77c0-4f9b-90a2-89e16895d1e1/items/ff327e8a-77c0-4f9b-90a2-89e16895d1e1
+GET http://localhost:9080/demo-1.0-SNAPSHOT/api/products/ff327e8a-77c0-4f9b-90a2-89e16895d1e1/items/ff327e8a-77c0-4f9b-90a2-89e16895d1e2
 
 ###
 
 ###
 
-PATCH http://localhost:9080/demo-1.0-SNAPSHOT/api/products/ff327e8a-77c0-4f9b-90a2-89e16895d1e1/items/ff327e8a-77c0-4f9b-90a2-89e16895d1e1
+PATCH http://localhost:9080/demo-1.0-SNAPSHOT/api/products/837a3e70-f64b-4088-b834-4658a08253a2/items/ff327e8a-77c0-4f9b-90a2-89e16895d1e2
 Content-Type: application/json
 
 {
-  "date": "2023-05-31"
+  "date": "2023-06-30"
 }
 
 ###
