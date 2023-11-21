@@ -10,6 +10,7 @@ import com.example.component.DtoFunctionFactory;
 import com.example.product.controller.api.ItemController;
 import com.example.product.controller.api.ProductController;
 import com.example.product.dto.PatchProductRequest;
+import com.example.product.entity.Product;
 import com.example.product.service.ProductService;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
@@ -74,6 +75,12 @@ public class ItemRestController implements ItemController {
                 BorrowedItem item = factory.requestToItem().apply(itemId, request);
                 item.setProduct(product);
                 itemService.create(item);
+
+                var items = product.getItems();
+
+                items.add(item);
+                product.setItems(items);
+                productService.update(product);
             },
                 () -> {
                     throw new NotFoundException();
@@ -95,8 +102,17 @@ public class ItemRestController implements ItemController {
             productService.find(productId).ifPresentOrElse(
                     product ->{
                         BorrowedItem item = factory.updateItem().apply(itemId, request);
+
+                        var prev = item.getProduct();
                         item.setProduct(product);
                         itemService.update(item);
+
+//                        if (!prev.equals(product)) {
+//                            var items = product.getItems();
+//                            items.remove(item);
+//                            product.setItems(items);
+//                            productService.update(product);
+//                        }
                     },
                     () -> {
                         throw new NotFoundException();

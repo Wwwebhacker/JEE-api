@@ -1,5 +1,6 @@
 package com.example.borrowedItem.dto;
 
+import com.example.product.entity.Product;
 import lombok.*;
 
 import java.time.LocalDate;
