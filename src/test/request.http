@@ -37,7 +37,7 @@ GET http://localhost:9080/demo-1.0-SNAPSHOT/api/products/ff327e8a-77c0-4f9b-90a2
 ###
 
 PUT http://localhost:9080/demo-1.0-SNAPSHOT/api/products/ff327e8a-77c0-4f9b-90a2-89e16895d1e1
-Content-Type: application/json
+    Content-Type: application/json
 
 {
   "name": "NewCreated",

@@ -9,6 +9,7 @@ import com.example.product.dto.PutProductRequest;
 import com.example.product.service.ProductService;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.TransactionalException;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.Path;
@@ -16,10 +17,14 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+import lombok.SneakyThrows;
+import lombok.extern.java.Log;
 
 import java.util.UUID;
+import java.util.logging.Level;
 
 @Path("")
+@Log
 public class ProductRestController implements ProductController {
 
 
@@ -65,8 +70,10 @@ public class ProductRestController implements ProductController {
                     .toString());
             throw new WebApplicationException(Response.Status.CREATED);
         } catch (IllegalArgumentException ex) {
+            log.log(Level.WARNING, ex.getMessage(), ex);
             throw new BadRequestException(ex);
         }
+
 
     }
 

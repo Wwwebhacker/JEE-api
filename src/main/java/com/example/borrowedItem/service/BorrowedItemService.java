@@ -37,7 +37,12 @@ public class BorrowedItemService {
 
     public List<BorrowedItem> findAll(User user) { return borrowedItemRepository.findAllByUser(user); }
 
-    public void create(BorrowedItem borrowedItem) { borrowedItemRepository.create(borrowedItem); }
+    public void create(BorrowedItem borrowedItem) {
+        if (borrowedItemRepository.find(borrowedItem.getId()).isPresent()){
+            throw new IllegalArgumentException("Item already exists.");
+        }
+        borrowedItemRepository.create(borrowedItem);
+    }
 
     public void delete(UUID id) {
         borrowedItemRepository.delete(borrowedItemRepository.find(id).orElseThrow());

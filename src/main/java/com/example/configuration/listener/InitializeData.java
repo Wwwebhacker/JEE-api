@@ -40,58 +40,61 @@ public class InitializeData {
 
     private void init() {
         requestContextController.activate();
-        User user = User.builder()
-                .id(UUID.fromString("c4804e0f-769e-4ab9-9ebe-0578fb4f00a6"))
-                .name("testUser")
-                .login("userLogin")
-                .registrationDate(LocalDate.now())
-                .roles(List.of(UserRoles.USER))
-                .build();
-
-        userService.create(user);
-
-
-
-        for (int i = 0; i < 3; i++) {
-            user = User.builder()
-                    .id(UUID.randomUUID())
-                    .name("user" + i)
-                    .login("userLogin" + i)
+        if(productService.findAll().isEmpty()) {
+            User user = User.builder()
+                    .id(UUID.fromString("c4804e0f-769e-4ab9-9ebe-0578fb4f00a6"))
+                    .name("testUser")
+                    .login("userLogin")
                     .registrationDate(LocalDate.now())
                     .roles(List.of(UserRoles.USER))
                     .build();
+
             userService.create(user);
-        }
 
-        Product product = Product.builder()
-                .id(UUID.fromString("ff327e8a-77c0-4f9b-90a2-89e16895d1e1"))
-                .name("product--")
-                .brand("brand--")
-                .build();
-        productService.create(product);
 
-        for (int i = 0; i < 4; i++) {
-            product = Product.builder()
-                    .id(UUID.randomUUID())
-                    .name("product" + i)
-                    .brand("brand" + i)
+            for (int i = 0; i < 3; i++) {
+                user = User.builder()
+                        .id(UUID.randomUUID())
+                        .name("user" + i)
+                        .login("userLogin" + i)
+                        .registrationDate(LocalDate.now())
+                        .roles(List.of(UserRoles.USER))
+                        .build();
+                userService.create(user);
+            }
+
+            Product product = Product.builder()
+                    .id(UUID.fromString("ff327e8a-77c0-4f9b-90a2-89e16895d1e1"))
+                    .name("product--")
+                    .brand("brand--")
                     .build();
             productService.create(product);
+
+            for (int i = 0; i < 4; i++) {
+                product = Product.builder()
+                        .id(UUID.randomUUID())
+                        .name("product" + i)
+                        .brand("brand" + i)
+                        .build();
+                productService.create(product);
+            }
+            System.out.println(productService.findAll());
+
+
+            for (int i = 0; i < 8; i++) {
+                user = userService.findAll().get(i % 4);
+                product = productService.findAll().get(i % 4);
+
+                BorrowedItem borrowedItem = BorrowedItem.builder()
+                        .id(UUID.randomUUID())
+                        .date(LocalDate.now())
+//                    .user(user)
+//                    .product(product)
+                        .build();
+                borrowedItemService.create(borrowedItem);
+            }
+
         }
-        System.out.println(productService.findAll());
-
-
-        for (int i = 0; i < 8; i++) {
-            BorrowedItem borrowedItem = BorrowedItem.builder()
-                    .id(UUID.randomUUID())
-                    .date(LocalDate.now())
-                    .user(userService.findAll().get(i%4))
-                    .product(productService.findAll().get(i%4))
-                    .build();
-            borrowedItemService.create(borrowedItem);
-        }
-
-
 
         requestContextController.deactivate();
     }
