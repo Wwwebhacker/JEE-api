@@ -23,6 +23,7 @@ public class GetUsersResponse {
     public static class User {
         private UUID id;
         private String login;
+        private String password;
     }
 
     @Singular

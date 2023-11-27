@@ -24,6 +24,8 @@ public class GetItemsResponse {
     public static class Item {
         private UUID id;
         private LocalDate date;
+        private UUID productId;
+        private UUID userId;
     }
 
     @Singular

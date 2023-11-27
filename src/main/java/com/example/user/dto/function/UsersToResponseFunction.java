@@ -15,6 +15,7 @@ public class UsersToResponseFunction implements Function<List<User>, GetUsersRes
                         .map(user -> GetUsersResponse.User.builder()
                                 .id(user.getId())
                                 .login(user.getLogin())
+                                .password(user.getPassword())
                                 .build()).toList())
                 .build();
     }

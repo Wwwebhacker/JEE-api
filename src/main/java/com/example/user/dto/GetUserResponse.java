@@ -18,6 +18,8 @@ public class GetUserResponse {
 
     private String name;
     private String login;
+    private String password;
     private LocalDate registrationDate;
     private List<String> roles;
+    private List<UUID> items;
 }

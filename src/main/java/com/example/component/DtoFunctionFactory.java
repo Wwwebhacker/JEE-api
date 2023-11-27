@@ -8,6 +8,7 @@ import com.example.product.dto.function.ProductToResponseFunction;
 import com.example.product.dto.function.ProductsToResponseFunction;
 import com.example.product.dto.function.RequestToProductFunction;
 import com.example.product.dto.function.UpdateProductWithRequestFunction;
+import com.example.user.dto.function.PutRequestToUser;
 import com.example.user.dto.function.UserToResponseFunction;
 import com.example.user.dto.function.UsersToResponseFunction;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -26,6 +27,8 @@ public class DtoFunctionFactory {
     public UserToResponseFunction userToResponse() {
         return new UserToResponseFunction();
     }
+
+    public PutRequestToUser requestToUser() { return new PutRequestToUser(); }
 
     public ProductToResponseFunction productToResponse() {
         return new ProductToResponseFunction();

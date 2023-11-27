@@ -45,6 +45,7 @@ public class InitializeData {
                     .id(UUID.fromString("c4804e0f-769e-4ab9-9ebe-0578fb4f00a6"))
                     .name("testUser")
                     .login("userLogin")
+                    .password("password")
                     .registrationDate(LocalDate.now())
                     .roles(List.of(UserRoles.USER))
                     .build();
@@ -57,6 +58,7 @@ public class InitializeData {
                         .id(UUID.randomUUID())
                         .name("user" + i)
                         .login("userLogin" + i)
+                        .password("password")
                         .registrationDate(LocalDate.now())
                         .roles(List.of(UserRoles.USER))
                         .build();
@@ -88,8 +90,8 @@ public class InitializeData {
                 BorrowedItem borrowedItem = BorrowedItem.builder()
                         .id(UUID.randomUUID())
                         .date(LocalDate.now())
-//                    .user(user)
-//                    .product(product)
+                        .user(user)
+                        .product(product)
                         .build();
                 borrowedItemService.create(borrowedItem);
             }

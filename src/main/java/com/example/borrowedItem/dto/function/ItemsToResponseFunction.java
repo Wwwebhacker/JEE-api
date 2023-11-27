@@ -15,6 +15,9 @@ public class ItemsToResponseFunction implements Function<List<BorrowedItem>, Get
                         .map(borrowedItem -> GetItemsResponse.Item.builder()
                                 .id(borrowedItem.getId())
                                 .date(borrowedItem.getDate())
+                                .productId(borrowedItem.getProduct().getId())
+                                .userId(borrowedItem.getUser().getId())
+
                                 .build()
                         ).toList())
                 .build();

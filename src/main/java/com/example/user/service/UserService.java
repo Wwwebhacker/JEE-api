@@ -1,19 +1,14 @@
 package com.example.user.service;
 
-import com.example.controller.servlet.exception.NotFoundException;
+import com.example.crypto.component.Pbkdf2PasswordHash;
 import com.example.user.entity.User;
 import com.example.user.repository.api.UserRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import lombok.NoArgsConstructor;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,10 +19,13 @@ public class UserService {
 
     private final UserRepository repository;
     private final FileService fileService;
+    private final Pbkdf2PasswordHash passwordHash;
+
     @Inject
-    public UserService(UserRepository repository, FileService fileService) {
+    public UserService(UserRepository repository, FileService fileService, Pbkdf2PasswordHash passwordHash) {
         this.repository = repository;
         this.fileService = fileService;
+        this.passwordHash = passwordHash;
     }
     public Optional<User> find(UUID id) {
         return repository.find(id);
@@ -39,6 +37,7 @@ public class UserService {
 
 
     public void create(User user) {
+        user.setPassword(passwordHash.generate(user.getPassword().toCharArray()));
         repository.create(user);
     }
 
