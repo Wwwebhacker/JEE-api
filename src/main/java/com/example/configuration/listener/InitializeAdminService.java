@@ -58,14 +58,14 @@ public class InitializeAdminService {
     @PostConstruct
     @SneakyThrows
     private void init() {
-        if (userRepository.findByLogin("admin").isEmpty()) {
+        if (userRepository.findByLogin("a").isEmpty()) {
 
             User admin = User.builder()
                     .id(UUID.fromString("14d59f3a-057c-44d5-825a-19295a6600a8"))
-                    .login("admin")
+                    .login("a")
                     .name("Admin")
                     .registrationDate(LocalDate.of(1990, 10, 21))
-                    .password(passwordHash.generate("admin".toCharArray()))
+                    .password(passwordHash.generate("a".toCharArray()))
                     .roles(List.of(UserRoles.ADMIN, UserRoles.USER))
                     .build();
 

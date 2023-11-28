@@ -86,8 +86,18 @@ public class BorrowedItemService {
     }
 
     public Optional<List<BorrowedItem>> findAllByProduct(UUID id){
-        return productRepository.find(id)
-                .map(borrowedItemRepository::findAllByProduct);
+        if (securityContext.isCallerInRole(UserRoles.ADMIN)){
+            return productRepository.find(id)
+                    .map(borrowedItemRepository::findAllByProduct);
+        }
+
+        User user = userService.getLoggedUser().orElseThrow();
+        if (borrowedItemRepository.find(id).map(item -> item.getUser().getId() == user.getId()).isPresent()){
+            return productRepository.find(id)
+                    .map(borrowedItemRepository::findAllByProduct);
+        }
+        return Optional.empty();
+
     }
 
     public void update(BorrowedItem borrowedItem) {

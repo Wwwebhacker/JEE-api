@@ -9,6 +9,8 @@ import com.example.product.entity.Product;
 import com.example.product.model.ProductModel;
 import com.example.product.model.ProductsModel;
 import com.example.product.service.ProductService;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -24,11 +26,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 
-@ViewScoped
+@RequestScoped
 @Named
 public class ProductView implements Serializable {
-    private final ProductService service;
-    private final BorrowedItemService itemService;
+    private ProductService service;
+    private BorrowedItemService itemService;
 
     private final ModelFunctionFactory factory;
 
@@ -43,11 +45,14 @@ public class ProductView implements Serializable {
     @Getter
     private ItemsModel items;
     @Inject
-    public ProductView(ProductService service, BorrowedItemService itemService, ModelFunctionFactory factory) {
-        this.service = service;
+    public ProductView(ModelFunctionFactory factory) {
         this.factory = factory;
-        this.itemService = itemService;
     }
+
+    @EJB
+    public void setProductService(ProductService service) { this.service = service; }
+    @EJB
+    public void setBorrowedItemService(BorrowedItemService itemService) { this.itemService = itemService; }
 
     public void init() throws IOException {
         UUID uuid = UUID.fromString(id);

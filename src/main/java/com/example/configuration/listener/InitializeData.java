@@ -1,12 +1,14 @@
 package com.example.configuration.listener;
 
 import com.example.borrowedItem.entity.BorrowedItem;
+import com.example.borrowedItem.repository.api.BorrowedItemRepository;
 import com.example.borrowedItem.service.BorrowedItemService;
 import com.example.product.entity.Product;
 import com.example.product.service.ProductService;
 import com.example.user.entity.User;
 import com.example.user.entity.UserRoles;
 import com.example.user.service.UserService;
+import jakarta.annotation.security.RunAs;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.context.control.RequestContextController;
@@ -21,15 +23,15 @@ public class InitializeData {
 
     private final UserService userService;
     private final ProductService productService;
-    private final BorrowedItemService borrowedItemService;
+    private final BorrowedItemRepository borrowedItemRepository;
     private final RequestContextController requestContextController;
 
 
     @Inject
-    public InitializeData(BorrowedItemService borrowedItemService, ProductService productService, UserService userService, RequestContextController requestContextController){
+    public InitializeData(BorrowedItemRepository borrowedItemRepository, ProductService productService, UserService userService, RequestContextController requestContextController){
         this.productService = productService;
         this.userService = userService;
-        this.borrowedItemService = borrowedItemService;
+        this.borrowedItemRepository = borrowedItemRepository;
         this.requestContextController = requestContextController;
     }
 
@@ -93,7 +95,7 @@ public class InitializeData {
                         .user(user)
                         .product(product)
                         .build();
-                borrowedItemService.create(borrowedItem);
+                borrowedItemRepository.create(borrowedItem);
             }
 
         }
