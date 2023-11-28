@@ -59,7 +59,11 @@ public class UserService {
     }
 
     public Optional<User> getLoggedUser() {
-        return this.repository.findByLogin(securityContext.getCallerPrincipal().getName());
+        var principal = securityContext.getCallerPrincipal();
+        if (principal == null){
+            return Optional.empty();
+        }
+        return this.repository.findByLogin(principal.getName());
     }
 
 }
