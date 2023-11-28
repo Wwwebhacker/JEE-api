@@ -61,7 +61,6 @@ public class ItemRestController implements ItemController {
         this.productService = productService;
     }
 
-    @RolesAllowed(UserRoles.ADMIN)
     @Override
     public GetItemsResponse getProductItems(UUID id) {
         return itemService.findAllByProduct(id)
@@ -81,7 +80,6 @@ public class ItemRestController implements ItemController {
                 .orElseThrow(NotFoundException::new);
     }
 
-    @RolesAllowed(UserRoles.ADMIN)
     @Override
     public GetItemsResponse getItems() {
         return factory.itemsToResponse().apply(itemService.findAll());
