@@ -81,6 +81,7 @@ public class ItemRestController implements ItemController {
                 .orElseThrow(NotFoundException::new);
     }
 
+    @RolesAllowed(UserRoles.ADMIN)
     @Override
     public GetItemsResponse getItems() {
         return factory.itemsToResponse().apply(itemService.findAll());
