@@ -16,6 +16,7 @@ public class UsersToResponseFunction implements Function<List<User>, GetUsersRes
                                 .id(user.getId())
                                 .login(user.getLogin())
                                 .password(user.getPassword())
+                                .roles(user.getRoles())
                                 .build()).toList())
                 .build();
     }

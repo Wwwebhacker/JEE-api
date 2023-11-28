@@ -24,6 +24,7 @@ public class GetUsersResponse {
         private UUID id;
         private String login;
         private String password;
+        private List<String> roles;
     }
 
     @Singular

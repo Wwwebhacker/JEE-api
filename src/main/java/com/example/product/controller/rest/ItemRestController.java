@@ -12,6 +12,10 @@ import com.example.product.controller.api.ProductController;
 import com.example.product.dto.PatchProductRequest;
 import com.example.product.entity.Product;
 import com.example.product.service.ProductService;
+import com.example.user.entity.User;
+import com.example.user.entity.UserRoles;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.BadRequestException;
@@ -26,10 +30,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Path("")
+@RolesAllowed({UserRoles.ADMIN, UserRoles.USER})
 public class ItemRestController implements ItemController {
 
-    private final BorrowedItemService itemService;
-    private final ProductService productService;
+    private BorrowedItemService itemService;
+    private ProductService productService;
     private final DtoFunctionFactory factory;
     private final UriInfo uriInfo;
 
@@ -42,20 +47,29 @@ public class ItemRestController implements ItemController {
     }
 
     @Inject
-    public ItemRestController(BorrowedItemService itemService, ProductService productService, DtoFunctionFactory factory,  @SuppressWarnings("CdiInjectionPointsInspection") UriInfo uriInfo){
-        this.itemService = itemService;
-        this.productService = productService;
+    public ItemRestController(DtoFunctionFactory factory,  @SuppressWarnings("CdiInjectionPointsInspection") UriInfo uriInfo){
         this.factory = factory;
         this.uriInfo = uriInfo;
-
     }
 
+    @EJB
+    public void setItemService(BorrowedItemService itemService){
+        this.itemService = itemService;
+    }
+    @EJB
+    public void setProductService(ProductService productService){
+        this.productService = productService;
+    }
+
+    @RolesAllowed(UserRoles.ADMIN)
     @Override
     public GetItemsResponse getProductItems(UUID id) {
         return itemService.findAllByProduct(id)
                 .map(factory.itemsToResponse())
                 .orElseThrow(NotFoundException::new);
     }
+
+
 
     @Override
     public GetItemResponse getProductItem(UUID productId, UUID itemId) {
@@ -66,6 +80,12 @@ public class ItemRestController implements ItemController {
                 )
                 .orElseThrow(NotFoundException::new);
     }
+
+    @Override
+    public GetItemsResponse getItems() {
+        return factory.itemsToResponse().apply(itemService.findAll());
+    }
+
 
     @Override
     public void putItem(UUID productId, UUID itemId, PutItemRequest request) {
@@ -95,6 +115,8 @@ public class ItemRestController implements ItemController {
             throw new BadRequestException(ex);
         }
     }
+
+
 
     @Override
     public void patchItem(UUID productId, UUID itemId, PatchItemRequest request) {

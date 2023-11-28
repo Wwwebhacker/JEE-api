@@ -4,6 +4,7 @@ import com.example.borrowedItem.entity.BorrowedItem;
 import com.example.borrowedItem.repository.api.BorrowedItemRepository;
 import com.example.product.entity.Product;
 import com.example.user.entity.User;
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestScoped
+@Dependent
 public class ItemPersistenceRepository implements BorrowedItemRepository {
 
 

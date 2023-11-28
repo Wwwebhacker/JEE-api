@@ -7,6 +7,8 @@ import com.example.product.dto.GetProductsResponse;
 import com.example.product.dto.PatchProductRequest;
 import com.example.product.dto.PutProductRequest;
 import com.example.product.service.ProductService;
+import com.example.user.entity.UserRoles;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.TransactionalException;
@@ -47,11 +49,14 @@ public class ProductRestController implements ProductController {
         this.uriInfo = uriInfo;
     }
 
+    @RolesAllowed(UserRoles.USER)
     @Override
     public GetProductsResponse getProducts() {
         return factory.productsToResponse().apply(service.findAll());
     }
 
+
+    @RolesAllowed(UserRoles.USER)
     @Override
     public GetProductResponse getProduct(UUID id) {
         return service.find(id)
@@ -59,6 +64,7 @@ public class ProductRestController implements ProductController {
                 .orElseThrow(NotFoundException::new);
     }
 
+    @RolesAllowed(UserRoles.ADMIN)
     @Override
     public void putProduct(UUID id, PutProductRequest request) {
         try {
@@ -77,6 +83,7 @@ public class ProductRestController implements ProductController {
 
     }
 
+    @RolesAllowed(UserRoles.ADMIN)
     @Override
     public void deleteProduct(UUID id) {
         service.find(id).ifPresentOrElse(

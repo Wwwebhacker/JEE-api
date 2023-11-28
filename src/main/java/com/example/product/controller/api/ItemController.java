@@ -22,6 +22,11 @@ public interface ItemController {
     @Produces(MediaType.APPLICATION_JSON)
     GetItemResponse getProductItem(@PathParam("id_product") UUID productId, @PathParam("id_item") UUID itemId);
 
+    @GET
+    @Path("/items")
+    @Produces(MediaType.APPLICATION_JSON)
+    GetItemsResponse getItems();
+
     @PUT
     @Path("/products/{id_product}/items/{id_item}")
     @Produces(MediaType.APPLICATION_JSON)

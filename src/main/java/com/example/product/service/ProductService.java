@@ -3,17 +3,24 @@ package com.example.product.service;
 
 import com.example.product.entity.Product;
 import com.example.product.repository.api.ProductRepository;
+import com.example.user.entity.UserRoles;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.LocalBean;
+import jakarta.ejb.Stateless;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
+import lombok.extern.java.Log;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@ApplicationScoped
+@LocalBean
+@Stateless
 @NoArgsConstructor(force = true)
+@Log
 public class ProductService {
 
     private final ProductRepository repository;

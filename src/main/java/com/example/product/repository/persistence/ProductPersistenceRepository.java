@@ -2,6 +2,7 @@ package com.example.product.repository.persistence;
 
 import com.example.product.entity.Product;
 import com.example.product.repository.api.ProductRepository;
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestScoped
+@Dependent
 public class ProductPersistenceRepository implements ProductRepository {
 
     private EntityManager em;

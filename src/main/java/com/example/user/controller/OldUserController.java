@@ -15,27 +15,20 @@ import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
 import lombok.NoArgsConstructor;
-import jakarta.servlet.ServletContext;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.UUID;
-import java.util.logging.Level;
 
 @RequestScoped
 @NoArgsConstructor(force = true)
-public class UserController {
+public class OldUserController {
     private final UserService service;
     private final DtoFunctionFactory factory;
 
 
     @Inject
-    public UserController(UserService userService, DtoFunctionFactory factory){
+    public OldUserController(UserService userService, DtoFunctionFactory factory){
         this.service = userService;
         this.factory = factory;
     }

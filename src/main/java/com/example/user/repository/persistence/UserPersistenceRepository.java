@@ -2,19 +2,22 @@ package com.example.user.repository.persistence;
 
 import com.example.user.entity.User;
 import com.example.user.repository.api.UserRepository;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
+import jakarta.security.enterprise.SecurityContext;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestScoped
+@Dependent
 public class UserPersistenceRepository implements UserRepository {
 
     private EntityManager em;
+
+
 
     @PersistenceContext
     public void setEm(EntityManager em) {
@@ -31,7 +34,6 @@ public class UserPersistenceRepository implements UserRepository {
         return em.createQuery("select u from User u", User.class).getResultList();
     }
 
-    @Transactional
     @Override
     public void create(User entity) {
         em.persist(entity);
@@ -46,4 +48,17 @@ public class UserPersistenceRepository implements UserRepository {
     public void update(User entity) {
         em.merge(entity);
     }
+
+    @Override
+    public Optional<User> findByLogin(String login) {
+        try {
+            return Optional.of(em.createQuery("select u from User u where u.login = :login", User.class)
+                    .setParameter("login", login)
+                    .getSingleResult());
+        } catch (NoResultException ex) {
+            return Optional.empty();
+        }
+    }
+
+
 }
