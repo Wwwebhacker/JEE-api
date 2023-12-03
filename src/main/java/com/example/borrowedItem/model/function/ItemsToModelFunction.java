@@ -12,7 +12,13 @@ public class ItemsToModelFunction implements Function<List<BorrowedItem>, ItemsM
     public ItemsModel apply(List<BorrowedItem> entities) {
         return ItemsModel.builder()
                 .items(entities.stream()
-                        .map(borrowedItem -> ItemsModel.Item.builder().date(borrowedItem.getDate()).id(borrowedItem.getId()).build())
+                        .map(borrowedItem -> ItemsModel.Item.builder()
+                                .id(borrowedItem.getId())
+                                .date(borrowedItem.getDate())
+                                .version(borrowedItem.getVersion())
+                                .creationDateTime(borrowedItem.getCreationDateTime())
+                                .updateDateTime(borrowedItem.getUpdateDateTime())
+                                .build())
                         .toList())
                 .build();
     }

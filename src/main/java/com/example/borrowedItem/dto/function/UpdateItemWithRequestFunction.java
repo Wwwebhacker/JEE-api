@@ -12,6 +12,7 @@ public class UpdateItemWithRequestFunction implements BiFunction<UUID, PatchItem
         return BorrowedItem.builder()
                 .id(borrowedItemId)
                 .date(patchItemRequest.getDate())
+                .version(patchItemRequest.getVersion())
                 .build();
     }
 }

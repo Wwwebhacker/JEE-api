@@ -13,4 +13,5 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 public class PatchItemRequest {
     private LocalDate date;
+    private Long version;
 }
