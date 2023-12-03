@@ -15,14 +15,18 @@ import jakarta.inject.Inject;
 import jakarta.security.enterprise.SecurityContext;
 import jakarta.ws.rs.NotAuthorizedException;
 import lombok.NoArgsConstructor;
+import lombok.extern.java.Log;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @LocalBean
 @Stateless
 @NoArgsConstructor(force = true)
+@Log
 public class BorrowedItemService {
 
     private final UserRepository userRepository;
@@ -30,12 +34,16 @@ public class BorrowedItemService {
     private final BorrowedItemRepository borrowedItemRepository;
     private final SecurityContext securityContext;
     private UserService userService;
+
+
+
     @Inject
     public BorrowedItemService(UserRepository userRepository, BorrowedItemRepository borrowedItemRepository, ProductRepository productRepository, SecurityContext securityContext){
         this.borrowedItemRepository = borrowedItemRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.securityContext = securityContext;
+
     }
 
     @EJB
@@ -43,7 +51,15 @@ public class BorrowedItemService {
 
 
 
-    public Optional<BorrowedItem> find(UUID id) { return borrowedItemRepository.find(id); }
+    public Optional<BorrowedItem> find(UUID id) {
+        if (securityContext.isCallerInRole(UserRoles.ADMIN)){
+            return borrowedItemRepository.find(id);
+        }
+
+        User user = userService.getLoggedUser().orElseThrow();
+
+        return borrowedItemRepository.findByIdAndUser(id, user);
+    }
 
     public Optional<BorrowedItem> find(User user, UUID id) { return borrowedItemRepository.findByIdAndUser(id, user); }
 
@@ -66,17 +82,22 @@ public class BorrowedItemService {
         User user = userService.getLoggedUser().orElseThrow();
         borrowedItem.setUser(user);
         borrowedItemRepository.create(borrowedItem);
+        log.log(Level.WARNING, "User " + user.getLogin() + " created item with id " + borrowedItem.getId());
     }
 
     public void delete(UUID id) {
-        if(securityContext.isCallerInRole(UserRoles.ADMIN)){
-            borrowedItemRepository.delete(borrowedItemRepository.find(id).orElseThrow());
-            return;
-        }
         User user = userService.getLoggedUser().orElseThrow();
 
-        BorrowedItem borrowedItem = user.getItems().stream().filter(item -> item.getId() == id).findFirst().orElseThrow();
-        borrowedItemRepository.delete(borrowedItem);
+
+        if(securityContext.isCallerInRole(UserRoles.ADMIN)){
+            borrowedItemRepository.delete(borrowedItemRepository.find(id).orElseThrow());
+        } else {
+
+            BorrowedItem borrowedItem = user.getItems().stream().filter(item -> item.getId() == id).findFirst().orElseThrow();
+            borrowedItemRepository.delete(borrowedItem);
+        }
+        log.log(Level.WARNING, "User " + user.getLogin() + " deleted item with id " + id);
+
     }
 
 
@@ -92,27 +113,33 @@ public class BorrowedItemService {
         }
 
         User user = userService.getLoggedUser().orElseThrow();
-        if (borrowedItemRepository.find(id).map(item -> item.getUser().getId() == user.getId()).isPresent()){
-            return productRepository.find(id)
-                    .map(borrowedItemRepository::findAllByProduct);
-        }
-        return Optional.empty();
 
+        var items = productRepository.find(id)
+                .map(borrowedItemRepository::findAllByProduct);
+
+        if (items.isPresent()){
+            return Optional.of(items.get().stream().filter(borrowedItem -> borrowedItem.getUser().getId() == user.getId()).toList());
+        }
+
+        return items;
     }
 
     public void update(BorrowedItem borrowedItem) {
+        User user = userService.getLoggedUser().orElseThrow();
+
+
         if (securityContext.isCallerInRole(UserRoles.ADMIN)){
             borrowedItemRepository.update(borrowedItem);
-            return;
-        }
-
-        User user = userService.getLoggedUser().orElseThrow();
-        if (borrowedItemRepository.find(borrowedItem.getId()).map(item -> item.getUser().getId() == user.getId()).isPresent()){
+        } else if (borrowedItemRepository.find(borrowedItem.getId()).map(item -> item.getUser().getId() == user.getId()).isPresent()) {
             borrowedItemRepository.update(borrowedItem);
-            return;
+        } else {
+            throw new NotAuthorizedException("");
         }
 
-        throw new NotAuthorizedException("");
+        log.log(Level.WARNING, "User " + user.getLogin() + " updated item with id " + borrowedItem.getId());
+
+
+
     }
 
 }

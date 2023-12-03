@@ -45,9 +45,9 @@ public class InitializeData {
         if(productService.findAll().isEmpty()) {
             User user = User.builder()
                     .id(UUID.fromString("c4804e0f-769e-4ab9-9ebe-0578fb4f00a6"))
-                    .name("testUser")
-                    .login("userLogin")
-                    .password("password")
+                    .name("user")
+                    .login("u")
+                    .password("u")
                     .registrationDate(LocalDate.now())
                     .roles(List.of(UserRoles.USER))
                     .build();
@@ -59,8 +59,8 @@ public class InitializeData {
                 user = User.builder()
                         .id(UUID.randomUUID())
                         .name("user" + i)
-                        .login("userLogin" + i)
-                        .password("password")
+                        .login("u" + i)
+                        .password("u")
                         .registrationDate(LocalDate.now())
                         .roles(List.of(UserRoles.USER))
                         .build();
@@ -74,7 +74,7 @@ public class InitializeData {
                     .build();
             productService.create(product);
 
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 3; i++) {
                 product = Product.builder()
                         .id(UUID.randomUUID())
                         .name("product" + i)
@@ -82,7 +82,6 @@ public class InitializeData {
                         .build();
                 productService.create(product);
             }
-            System.out.println(productService.findAll());
 
 
             for (int i = 0; i < 8; i++) {

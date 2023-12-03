@@ -24,7 +24,7 @@
                         <f:param name="id" value="#{product.id}"/>
                     </h:link>
                 </h:column>
-                <h:column>
+                <h:column rendered="#{productList.admin}">
                     <f:facet name="header">Delete</f:facet>
                     <h:form>
                         <h:commandButton styleClass="btn" value="Delete"

@@ -23,6 +23,12 @@
         <div class="container">
             <header class="mb-4 mt-4">
                 <h1>Demo Web App</h1>
+                <h:form styleClass="container d-flex  align-items-center justify-content-end"
+                        rendered="#{facesContext.externalContext.userPrincipal != null}">
+                    Logged: <h:outputText value="#{facesContext.externalContext.userPrincipal.name}"/>
+                    <h:commandButton styleClass="btn btn-link" value="Logout"
+                                     action="#{userLogout.logoutAction()}"/>
+                </h:form>
                 <h:graphicImage value="/img.png"/>
             </header>
 
