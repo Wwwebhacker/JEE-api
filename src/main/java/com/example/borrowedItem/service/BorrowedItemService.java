@@ -13,6 +13,7 @@ import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.SecurityContext;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotAuthorizedException;
 import lombok.NoArgsConstructor;
 import lombok.extern.java.Log;
@@ -123,7 +124,6 @@ public class BorrowedItemService {
 
         return items;
     }
-
     public void update(BorrowedItem borrowedItem) {
         User user = userService.getLoggedUser().orElseThrow();
 

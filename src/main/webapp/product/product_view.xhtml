@@ -58,6 +58,12 @@
                     </h:outputText>
                 </h:column>
                 <h:column>
+                    <f:facet name="header">Edit</f:facet>
+                    <h:link outcome="/item/item_edit.xhtml" value="Edit">
+                        <f:param name="id" value="#{item.id}"/>
+                    </h:link>
+                </h:column>
+                <h:column>
                     <f:facet name="header">View</f:facet>
                     <h:link outcome="/item/item_view.xhtml" value="View">
                         <f:param name="id" value="#{item.id}"/>

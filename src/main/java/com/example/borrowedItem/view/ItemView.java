@@ -43,7 +43,7 @@ public class ItemView implements Serializable {
         if (borrowedItemOptional.isPresent()){
             this.item = factory.itemToModel().apply(borrowedItemOptional.get());
         } else {
-            FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Character not found");
+            FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Item not found");
         }
     }
 }

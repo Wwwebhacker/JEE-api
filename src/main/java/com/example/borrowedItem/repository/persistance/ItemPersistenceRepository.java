@@ -53,6 +53,11 @@ public class ItemPersistenceRepository implements BorrowedItemRepository {
     @Transactional
     @Override
     public void update(BorrowedItem entity) {
+
+        if (!em.isJoinedToTransaction()) {
+            em.joinTransaction();
+        }
+
         em.merge(entity);
     }
 
