@@ -13,11 +13,13 @@ public class UpdateItemWithModelFunction implements BiFunction<BorrowedItem, Ite
     @Override
     @SneakyThrows
     public BorrowedItem apply(BorrowedItem borrowedItem, ItemEditModel itemModel) {
+
         return BorrowedItem.builder()
                 .id(borrowedItem.getId())
                 .user(borrowedItem.getUser())
                 .product(borrowedItem.getProduct())
                 .date(LocalDate.parse(itemModel.getDate()) )
+                .creationDateTime(borrowedItem.getCreationDateTime())
                 .version(itemModel.getVersion())
                 .build();
     }

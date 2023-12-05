@@ -60,12 +60,14 @@ public class ItemEdit implements Serializable {
             itemService.update(factory.updateItem().apply(itemService.find(UUID.fromString(id)).orElseThrow(), item));
             String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
             return viewId + "?faces-redirect=true&includeViewParams=true";
-        } catch (EJBTransactionRolledbackException ex) {
-            System.out.println(ex);
-            if (ex.getCause().getCause() instanceof OptimisticLockException) {
-//                init();
-                facesContext.addMessage(null, new FacesMessage("Version collision."));
-            }
+        } catch (Exception ex) {
+
+            facesContext.addMessage(null, new FacesMessage("Version collision."));
+//            System.out.println(ex);
+//            if (ex.getCause().getCause() instanceof OptimisticLockException) {
+////                init();
+//                facesContext.addMessage(null, new FacesMessage("Version collision."));
+//            }
 
             return null ;
         }
